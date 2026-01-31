@@ -1,15 +1,15 @@
-const API_BASE = ''  // Proxy handles /api
+const API_BASE = 'https://ourlove5504-gtr5j.ondigitalocean.app'
 
 export const api = {
     async get(url) {
-        const res = await fetch(url, {
+        const res = await fetch(`${API_BASE}${url}`, {
             credentials: 'include'
         })
         return res.json()
     },
 
     async post(url, data) {
-        const res = await fetch(url, {
+        const res = await fetch(`${API_BASE}${url}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ export const api = {
     },
 
     async put(url, data) {
-        const res = await fetch(url, {
+        const res = await fetch(`${API_BASE}${url}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ export const api = {
     },
 
     async delete(url) {
-        const res = await fetch(url, {
+        const res = await fetch(`${API_BASE}${url}`, {
             method: 'DELETE',
             credentials: 'include'
         })
@@ -47,7 +47,7 @@ export const api = {
             formData.append(key, data[key])
         })
 
-        const res = await fetch(url, {
+        const res = await fetch(`${API_BASE}${url}`, {
             method: 'POST',
             body: formData,
             credentials: 'include'
