@@ -3,7 +3,9 @@ const API_BASE = 'https://ourlove5504-gtr5j.ondigitalocean.app'
 export const api = {
     async get(url) {
         const res = await fetch(`${API_BASE}${url}`, {
-            credentials: 'include'
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
         return res.json()
     },
@@ -14,8 +16,7 @@ export const api = {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data),
-            credentials: 'include'
+            body: JSON.stringify(data)
         })
         return res.json()
     },
@@ -26,8 +27,7 @@ export const api = {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data),
-            credentials: 'include'
+            body: JSON.stringify(data)
         })
         return res.json()
     },
@@ -35,7 +35,9 @@ export const api = {
     async delete(url) {
         const res = await fetch(`${API_BASE}${url}`, {
             method: 'DELETE',
-            credentials: 'include'
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
         return res.json()
     },
@@ -49,8 +51,7 @@ export const api = {
 
         const res = await fetch(`${API_BASE}${url}`, {
             method: 'POST',
-            body: formData,
-            credentials: 'include'
+            body: formData
         })
         return res.json()
     }

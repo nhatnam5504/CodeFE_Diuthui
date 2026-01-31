@@ -8,27 +8,33 @@ import Letters from './pages/Letters'
 import Milestones from './pages/Milestones'
 
 import Layout from './components/Layout'
-import { api } from './api/api'
 
 function App() {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        checkAuth()
+        // Check localStorage for saved user data
+        const savedUser = localStorage.getItem('ourlove_user')
+        if (savedUser) {
+            try {
+                setUser(JSON.parse(savedUser))
+            } catch (e) {
+                localStorage.removeItem('ourlove_user')
+            }
+        }
+        setLoading(false)
     }, [])
 
-    const checkAuth = async () => {
-        try {
-            const res = await api.get('/api/auth/me')
-            if (res.success) {
-                setUser(res.data)
-            }
-        } catch (e) {
-            console.log('Not authenticated')
-        } finally {
-            setLoading(false)
-        }
+    const handleLogin = (userData) => {
+        // Save user to localStorage
+        localStorage.setItem('ourlove_user', JSON.stringify(userData))
+        setUser(userData)
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('ourlove_user')
+        setUser(null)
     }
 
     if (loading) {
@@ -44,10 +50,10 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={
-                    user ? <Navigate to="/" /> : <Login onLogin={setUser} />
+                    user ? <Navigate to="/" /> : <Login onLogin={handleLogin} />
                 } />
                 <Route path="/" element={
-                    user ? <Layout user={user} onLogout={() => setUser(null)} /> : <Navigate to="/login" />
+                    user ? <Layout user={user} onLogout={handleLogout} /> : <Navigate to="/login" />
                 }>
                     <Route index element={<Home user={user} />} />
                     <Route path="photos" element={<Photos user={user} />} />
